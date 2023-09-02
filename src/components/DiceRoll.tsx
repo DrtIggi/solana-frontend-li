@@ -1,16 +1,37 @@
 import React, { useState, useRef} from 'react';
 import { gsap } from 'gsap';
+import { useConnection, useAnchorWallet } from "@solana/wallet-adapter-react";
+import play from "pages/api/play_new"
+import setup from "pages/api/setup_new"
+// import { AnchorProvider, Provider, web3, Wallet } from '@project-serum/anchor';
+// import { WalletAdapter } from '@solana/wallet-adapter-base';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+// import {secret} from "pages/api/constants"
 
 const DiceRoll = ({ onDiceValueChange }) => {
   const [diceValue, setDiceValue] = useState(1);
   const [isRolling, setIsRolling] = useState(false);
   const animationRef = useRef(null);
-  
+  const {connection} = useConnection()
+  const anchorWallet = useAnchorWallet()
+
+  async function _play() {
+    //const anchorWallet = new AnchorProvider(connection, wallet , {})
+    // const anchorWallet = new Ancho
+    // const vendor = web3.Keypair.fromSecretKey(secret)
+    // const commitment = "processed";
+    // const preflightCommitment = "processed";
+    // const provider = new AnchorProvider(connection, new Wallet(vendor), {commitment, preflightCommitment})
+    
+    setup(anchorWallet, LAMPORTS_PER_SOL/2)
+    play(anchorWallet.publicKey, diceValue)
+    
+  }
 
   const rollDice = () => {
     if (!isRolling) {
       setIsRolling(true);
-
+      _play();
       // If there's an existing animation, clear it
       if (animationRef.current) {
         animationRef.current.kill();
