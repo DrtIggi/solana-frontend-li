@@ -1,8 +1,8 @@
 import React, { useState, useRef} from 'react';
 import { gsap } from 'gsap';
 import { useConnection, useAnchorWallet } from "@solana/wallet-adapter-react";
-import play from "pages/api/play_new"
-import setup from "pages/api/setup_new"
+import {play} from "pages/api/play_new"
+import {setup} from "pages/api/setup_new"
 // import { AnchorProvider, Provider, web3, Wallet } from '@project-serum/anchor';
 // import { WalletAdapter } from '@solana/wallet-adapter-base';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
@@ -23,8 +23,8 @@ const DiceRoll = ({ onDiceValueChange }) => {
     // const preflightCommitment = "processed";
     // const provider = new AnchorProvider(connection, new Wallet(vendor), {commitment, preflightCommitment})
     
-    setup(anchorWallet, LAMPORTS_PER_SOL/2)
-    play(anchorWallet.publicKey, diceValue)
+    await setup(anchorWallet, LAMPORTS_PER_SOL/2)
+    await play(anchorWallet, diceValue)
     
   }
 
