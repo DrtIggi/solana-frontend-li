@@ -1,6 +1,6 @@
 import {idl} from "./dice_roll"
-import { Connection, PublicKey, clusterApiUrl } from "@solana/web3.js";
-
+import { Connection, PublicKey, clusterApiUrl, Keypair } from "@solana/web3.js";
+// import {Wallet}  from "@project-serum/anchor";
 
 export const commitmentLevel = "processed";
 export const endpoint = "https://api.devnet.solana.com";
@@ -10,9 +10,14 @@ export const programId = new PublicKey("DJecLubDCCV3KuQyw5Hg6Yf4UaA1GNdwt4TyFoJg
 export const programInterface = JSON.parse(JSON.stringify(idl));
 
 import json_secret from './wallet.json'
+import { WalletProvider, AnchorWallet, Wallet } from "@solana/wallet-adapter-react";
 // const x = 'utils/mywallet/wallet.json';
 // export const secret = fs.readFileSync(jsonFilePath, 'utf8');
-export const secret = Uint8Array.from(json_secret);
+const t = require("@project-serum/anchor")
+import NodeWallet from '@project-serum/anchor/dist/cjs/nodewallet'
+const secret = Uint8Array.from(json_secret);
+const vendor = Keypair.fromSecretKey(secret);
+export let vendor_wallet = new NodeWallet(vendor)
 
 // const y = 'utils/stake.json'
 // export const stake = Uint8Array.from(JSON.parse(fs.readFileSync(y, 'utf8')));
