@@ -7,30 +7,30 @@ import {
     commitmentLevel,
     programId,
     programInterface,
-    secret
+    vendor_wallet
   } from "./constants";
-// const programId = "2WWFGRA4f81ubcjtkh112obV8brzF6nkhBCDGh7Z8hqo";
-import { clusterApiUrl } from "@solana/web3.js";
+
 import * as anchor from "@project-serum/anchor";
 
-export default async function play(player, value: number) {
+const play = async (player, value) => {
 
 
     const preflightCommitment = "processed";
     const commitment = "processed";
-    const vendor = anchor.web3.Keypair.fromSecretKey(secret)
+    // const vendor = anchor.web3.Keypair.fromSecretKey(secret)
 
-    const provider = new anchor.AnchorProvider(connection, new anchor.Wallet(vendor), {
+    const provider = new anchor.AnchorProvider(connection, vendor_wallet , {
         preflightCommitment,
         commitment,
         });
     const program = new anchor.Program(programInterface, programId, provider);
 
-
+    console.log("kaka")
+    console.log(player.publicKey.toString())
     const [dicePDA, _] = anchor.web3.PublicKey.findProgramAddressSync(
     [
         anchor.utils.bytes.utf8.encode("dice-roll"),
-        vendor.publicKey.toBuffer(),
+        vendor_wallet.publicKey.toBuffer(),
         player.publicKey.toBuffer(),
     ],
     program.programId
@@ -46,7 +46,7 @@ export default async function play(player, value: number) {
     const tx = await program.methods.play(roll_number)
       .accounts({
         diceRoll: dicePDA,
-        vendor: vendor.publicKey,
+        vendor: vendor_wallet.publicKey,
         player: player.publicKey,
         systemProgram: anchor.web3.SystemProgram.programId,
       })
@@ -60,7 +60,7 @@ export default async function play(player, value: number) {
     // console.log({ gameState: gameState.players });
     console.log(tx.toString());
   }
-
+export {play}
   // const player = new anchor.Wallet(anchor.web3.Keypair.fromSecretKey(stake))
   // let playerPublicKey = new PublicKey(player.publicKey);
 
