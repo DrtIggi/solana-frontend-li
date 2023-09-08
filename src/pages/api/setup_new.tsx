@@ -7,11 +7,10 @@ import {
     commitmentLevel,
     programId,
     programInterface,
-    secret
+    vendor_wallet
   } from "./constants";
 // const programId = "2WWFGRA4f81ubcjtkh112obV8brzF6nkhBCDGh7Z8hqo";
 import { clusterApiUrl } from "@solana/web3.js";
-import play from "./play_new";
 
 // function programForUser(user: anchor.web3.Keypair) {
 //     return new anchor.Program(program.idl, program.programId, user.provider);
@@ -46,7 +45,7 @@ export default async function setup(player, amount: number
 //   new Wallet(web3.Keypair.fromSecretKey(secret))
 //   console.log(secretKeyArray);
 
-  const vendor = anchor.web3.Keypair.fromSecretKey(secret);
+  // const vendor = anchor.web3.Keypair.fromSecretKey(secret);
   // const vendorWallet = new anchor.Wallet(vendor);
 
 //   const connection = new Connection(
@@ -79,7 +78,7 @@ export default async function setup(player, amount: number
   const [dicePDA, _] = await anchor.web3.PublicKey.findProgramAddress(
     [
       anchor.utils.bytes.utf8.encode("dice-roll"),
-      vendor.publicKey.toBuffer(),
+      vendor_wallet.publicKey.toBuffer(),
       playerPublicKey.toBuffer(),
     ],
     program.programId
@@ -93,10 +92,10 @@ export default async function setup(player, amount: number
     const deleteTx = await program.rpc.delete(playerPublicKey, {
       accounts: {
         diceRoll: dicePDA,
-        vendor: vendor.publicKey,
+        vendor: vendor_wallet.publicKey,
         systemProgram: anchor.web3.SystemProgram.programId,
       },
-      signers: [vendor],
+      signers: [vendor_wallet.payer],
     });
 
     await provider.connection.confirmTransaction(deleteTx);
@@ -105,23 +104,23 @@ export default async function setup(player, amount: number
     console.log(program.account)
     console.log("account does not exist, continue");
   }
-
-  const setupTx = await program.rpc.setup(vendor.publicKey, amount, {
-    accounts: {
+  console.log(vendor_wallet.publicKey.toString())
+  console.log(player.publicKey.toString())
+  const setupTx = await program.methods.setup(vendor_wallet.publicKey, amount)
+  .accounts({
       diceRoll: dicePDA,
       player: player.publicKey,
       systemProgram: anchor.web3.SystemProgram.programId,
-    },
-    signers: [player],
-  });
-  await provider.connection.confirmTransaction(setupTx);
+    })
+    .signers([player])
+    .transaction();
+  console.log("hi")
+  await provider.sendAndConfirm(setupTx)
 
 //   res.status(200).json({
     // dicePDA: dicePDA.toString(),
     // vendor: vendor.publicKey.toString(),
 //   });
-  console.log(dicePDA.toString());
-  console.log(vendor.publicKey.toString());
 }
 
-// setup();
+export {setup}
