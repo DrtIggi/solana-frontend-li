@@ -3,35 +3,38 @@ import { gsap } from 'gsap';
 import { useConnection, useAnchorWallet } from "@solana/wallet-adapter-react";
 import {play} from "pages/api/play_new"
 import {setup} from "pages/api/setup_new"
+import LoadingAnimation from './LoadingAnimation';
 // import { AnchorProvider, Provider, web3, Wallet } from '@project-serum/anchor';
 // import { WalletAdapter } from '@solana/wallet-adapter-base';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 // import {secret} from "pages/api/constants"
 
-const DiceRoll = ({ onDiceValueChange }) => {
+const DiceRoll = ({onChange}) => {
+  const [ onDiceValueChange, inputValue ] = onChange;
   const [diceValue, setDiceValue] = useState(1);
   const [isRolling, setIsRolling] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const animationRef = useRef(null);
   const {connection} = useConnection()
   const anchorWallet = useAnchorWallet()
 
-  async function _play() {
-    //const anchorWallet = new AnchorProvider(connection, wallet , {})
-    // const anchorWallet = new Ancho
-    // const vendor = web3.Keypair.fromSecretKey(secret)
-    // const commitment = "processed";
-    // const preflightCommitment = "processed";
-    // const provider = new AnchorProvider(connection, new Wallet(vendor), {commitment, preflightCommitment})
-    
-    await setup(anchorWallet, LAMPORTS_PER_SOL/2)
-    await play(anchorWallet, diceValue)
-    
+  async function _play(newValue, inputValue){
+    setIsLoading(true);
+
+  try {
+    await setup(anchorWallet, LAMPORTS_PER_SOL*inputValue);
+    await play(anchorWallet, newValue);
+  } catch (error) {
+    // Handle errors if needed
+  } finally {
+    setIsLoading(false);
+  }
   }
 
-  const rollDice = () => {
-    if (!isRolling) {
+  const rollDice = async() => {
+    if (!isRolling && !isLoading) {
       setIsRolling(true);
-      _play();
+      
       // If there's an existing animation, clear it
       if (animationRef.current) {
         animationRef.current.kill();
@@ -41,14 +44,17 @@ const DiceRoll = ({ onDiceValueChange }) => {
       gsap.set('.dice', {
         rotation: 0,
       });
-
+      const newValue = Math.floor(Math.random() * 6) + 1;
+      
+      await _play(newValue, inputValue)
       // Create a GSAP timeline for the animation
       animationRef.current = gsap.timeline({
         onComplete: () => {
           setIsRolling(false);
           // After the initial animation, set the new dice value
-          const newValue = Math.floor(Math.random() * 6) + 1;
+          
           setDiceValue(newValue);
+          // _play()
           onDiceValueChange(newValue);
           // Confirm the bet using the betAmount state
         },
@@ -119,7 +125,15 @@ const DiceRoll = ({ onDiceValueChange }) => {
   return (
     <div className="dice-container">
       <div className={`dice ${isRolling ? 'rolling' : ''}`} onClick={rollDice}>
-        {renderDots()}
+      {isLoading ? (
+        // Render a loading animation (e.g., a spinner or progress bar) here
+        <LoadingAnimation />
+      ) : (
+        // Render the dice and dots here
+        <>
+          {renderDots()}
+        </>
+      )}
         </div>
     </div>
   );
