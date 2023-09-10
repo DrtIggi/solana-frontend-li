@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-const WinNotification = ({ inputValue, diceValue }) => {
+const WinNotification = ({inputValue, diceValue }) => {
   // Calculate the total win based on inputValue and diceValue
   let totalWin = 0
     if(diceValue == 6){

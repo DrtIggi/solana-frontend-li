@@ -35,7 +35,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
           {/* <Footer/> */}
           {/* </ContentContainer> */}
           <WinNotification inputValue={inputValue} diceValue={diceValue} />
-          <DiceRoll onDiceValueChange={handleDiceValueChange} />
+          <DiceRoll onChange={[handleDiceValueChange,inputValue]} />
           <BetInput onInputValueChange={handleInputValueChange} />
         </div>
       </ContextProvider>
