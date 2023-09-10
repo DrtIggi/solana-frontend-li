@@ -7,7 +7,8 @@ import {
     commitmentLevel,
     programId,
     programInterface,
-    vendor_wallet
+    vendor_wallet,
+    vendor_provider
   } from "./constants";
 // const programId = "2WWFGRA4f81ubcjtkh112obV8brzF6nkhBCDGh7Z8hqo";
 import { clusterApiUrl } from "@solana/web3.js";
@@ -72,6 +73,7 @@ export default async function setup(player, amount: number
   // Start
 
   const program = new anchor.Program(programInterface, programId, provider)
+  const vendor_program = new anchor.Program(programInterface, programId, vendor_provider)
 
   const randomSeed = new anchor.BN(Math.floor(Math.random() * 100000));
 
@@ -89,7 +91,7 @@ export default async function setup(player, amount: number
     // delete if account exists
     
     await program.account.diceRoll.fetch(dicePDA); // should error out if account does not exist
-    const deleteTx = await program.rpc.delete(playerPublicKey, {
+    const deleteTx = await vendor_program.rpc.delete(playerPublicKey, {
       accounts: {
         diceRoll: dicePDA,
         vendor: vendor_wallet.publicKey,
@@ -98,7 +100,7 @@ export default async function setup(player, amount: number
       signers: [vendor_wallet.payer],
     });
 
-    await provider.connection.confirmTransaction(deleteTx);
+    await vendor_provider.connection.confirmTransaction(deleteTx);
   } catch (error) {
     // console.log(error);
     console.log(program.account)
