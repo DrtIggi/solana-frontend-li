@@ -7,7 +7,8 @@ import {
     commitmentLevel,
     programId,
     programInterface,
-    vendor_wallet
+    vendor_wallet,
+    vendor_provider
   } from "./constants";
 
 import * as anchor from "@project-serum/anchor";
@@ -19,11 +20,8 @@ const play = async (player, value) => {
     const commitment = "processed";
     // const vendor = anchor.web3.Keypair.fromSecretKey(secret)
 
-    const provider = new anchor.AnchorProvider(connection, vendor_wallet , {
-        preflightCommitment,
-        commitment,
-        });
-    const program = new anchor.Program(programInterface, programId, provider);
+    
+    const program = new anchor.Program(programInterface, programId, vendor_provider);
 
     console.log("kaka")
     console.log(player.publicKey.toString())
