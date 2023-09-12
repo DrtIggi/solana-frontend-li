@@ -6,12 +6,13 @@ const BetInput = ({ onInputValueChange }) => {
   const handleBetChange = (event) => {
     // Update the betAmount state when the input value changes
     setBetAmount(event.target.value);
-    onInputValueChange(event.target.value)
+    onInputValueChange(event.target.value);
   };
+
   const handleConstantAmountClick = (amount) => {
     // Set the betAmount when a constant amount is clicked
     setBetAmount(amount.toString());
-    onInputValueChange(amount.toString())
+    onInputValueChange(amount.toString());
   };
 
   const handleSubmit = (event) => {
@@ -21,37 +22,36 @@ const BetInput = ({ onInputValueChange }) => {
   };
 
   return (
-    <div>
     <div className="input-container"> {/* Use className instead of style */}
       <form onSubmit={handleSubmit}>
-        <label>
+        {/* <label>
           <input
             type="number"
             value={betAmount}
             onChange={handleBetChange}
-            className="input" 
+            className="input"
             step="0.01"
-          /> in SOL
-        </label>
+          />{' '}
+          in SOL
+        </label> */}
         <p className="instruction-text">Or you can use the following buttons:</p>
-        <div className="constant-amounts">
-    <button onClick={() => handleConstantAmountClick(0.1)}>0.1</button>
-    <button onClick={() => handleConstantAmountClick(0.2)}>0.2</button>
-    <button onClick={() => handleConstantAmountClick(0.5)}>0.5</button>
-    <button onClick={() => handleConstantAmountClick(1)}>1</button>
-    </div>
-  <div className="constant-amounts">
-    <button onClick={() => handleConstantAmountClick(1.2)}>1.2</button>
-    <button onClick={() => handleConstantAmountClick(1.5)}>1.5</button>
-    <button onClick={() => handleConstantAmountClick(1.7)}>1.7</button>
-    <button onClick={() => handleConstantAmountClick(2)}>2</button>
-  
-</div>
+        <div className="button-container">
+          <div className="constant-amounts left-constants">
+            <button onClick={() => handleConstantAmountClick(0.1)}>0.1</button>
+            <button onClick={() => handleConstantAmountClick(0.2)}>0.2</button>
+            <button onClick={() => handleConstantAmountClick(0.5)}>0.5</button>
+            <button onClick={() => handleConstantAmountClick(1)}>1</button>
+          </div>
+          <div className="constant-amounts right-constants">
+            <button onClick={() => handleConstantAmountClick(1.2)}>1.2</button>
+            <button onClick={() => handleConstantAmountClick(1.5)}>1.5</button>
+            <button onClick={() => handleConstantAmountClick(1.7)}>1.7</button>
+            <button onClick={() => handleConstantAmountClick(2)}>2</button>
+          </div>
+        </div>
       </form>
-    </div>
     </div>
   );
 };
 
 export default BetInput;
-
