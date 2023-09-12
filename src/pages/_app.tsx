@@ -6,6 +6,11 @@ import { AppBar } from '../components/AppBar';
 import WinNotification from 'components/WinNotification';
 import DiceRoll from '../components/DiceRoll';
 import BetInput from '../components/BetInput'
+import BetButtons from 'components/BetButtons';
+import BetSlider from 'components/BetSlider'
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
+
 require('@solana/wallet-adapter-react-ui/styles.css');
 require('../styles/globals.css');
 
@@ -34,9 +39,19 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
           {/* <Component {...pageProps} /> */}
           {/* <Footer/> */}
           {/* </ContentContainer> */}
-          <WinNotification inputValue={inputValue} diceValue={diceValue} />
-          <DiceRoll onChange={[handleDiceValueChange,inputValue]} />
-          <BetInput onInputValueChange={handleInputValueChange} />
+          
+          {/* <WinNotification inputValue={inputValue} diceValue={diceValue} /> */}
+
+          <DiceRoll onChange={[handleDiceValueChange,inputValue, handleInputValueChange]} />
+          
+          <div className="cool-text">
+            Choose your warrior...
+          </div>
+          {/* <button className="button-33" role="button">Button 33</button> */}
+          {/* <RangeSlider onInput={handleInputValueChange}/> */}
+          {/* <BetSlider onBetChange={setInputValue} /> */}
+          <BetButtons betAmounts={[0.1, 0.3, 0.5, 1, 1.3, 1.5, 1.7, 2]} onBetClick={setInputValue} />
+          {/* <BetInput onInputValueChange={handleInputValueChange} /> */}
         </div>
       </ContextProvider>
     </>
