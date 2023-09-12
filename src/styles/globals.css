@@ -4,16 +4,20 @@
 
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  /* background-image: radial-gradient(
-    circle farthest-side at 50% 100%,rgba(1, 9, 18, 0),
-    rgba(255, 255, 255, 0.839) 36%,
-    rgba(1, 14, 29, 0.6) 55%,
-    rgb(0, 255, 60)); */
-  background-color: rgb(34, 34, 34);
+  --s: 50px;
+  --c: #191b22;
+  --_s: calc(2*var(--s)) calc(2*var(--s));
+  --_g: 35.36% 35.36% at;
+  --_c: #0000 66%,#20222a 68% 70%,#0000 72%;
+  background: 
+    radial-gradient(var(--_g) 100% 25%,var(--_c)) var(--s) var(--s)/var(--_s), 
+    radial-gradient(var(--_g) 0 75%,var(--_c)) var(--s) var(--s)/var(--_s), 
+    radial-gradient(var(--_g) 100% 25%,var(--_c)) 0 0/var(--_s), 
+    radial-gradient(var(--_g) 0 75%,var(--_c)) 0 0/var(--_s), 
+    repeating-conic-gradient(var(--c) 0 25%,#0000 0 50%) 0 0/var(--_s), 
+    radial-gradient(var(--_c)) 0 calc(var(--s)/2)/var(--s) var(--s) var(--c);
+  background-attachment: fixed;
+  
 }
 
 a {
@@ -39,7 +43,9 @@ a {
   align-items: center;
   height: 50vh;
   position: relative; /* Add relative positioning to the container */
+ 
 }
+
 
 .dice {
   width: 150px;
@@ -178,7 +184,7 @@ a {
 /* Add this CSS to your stylesheet */
 .button-33:focus {
   /* Define the styles for the focused button and its adjacent siblings */
-  color: #28f328; /* Green border color for focused button */
+  color: rgb(40, 243, 40); /* Green border color for focused button */
   transform: scale(1.1);
 }
 
@@ -210,9 +216,9 @@ a {
   --color4: lime;
   --color5: gold;
   --color6: mediumseagreen;
-  --y: -30vmin;
+  --y: 50vmin;
   --x: -50%;
-  --initialY: 60vmin;
+  --initialY: 100vmin;
   content: "";
   animation: firework 2s infinite;
   position: absolute;
@@ -292,27 +298,28 @@ a {
 }
 
 .firework:nth-child(2) {
-  --x: 30vmin;
+  --x: -40vmin;
+  --y: 0vmin
 }
 
 .firework:nth-child(2),
 .firework:nth-child(2)::before,
 .firework:nth-child(2)::after {
-  --color1: pink;
+  --color1: rgb(200, 192, 255);
   --color2: violet;
   --color3: fuchsia;
   --color4: orchid;
   --color5: plum;
   --color6: lavender;  
   --finalSize: 40vmin;
-  left: 30%;
+  left: 80%;
   top: 60%;
   animation-delay: -0.25s;
 }
 
 .firework:nth-child(3) {
-  --x: -30vmin;
-  --y: -50vmin;
+  --x: 50vmin;
+  --y: 0vmin;
 }
 
 .firework:nth-child(3),
@@ -325,13 +332,13 @@ a {
   --color5: SkyBlue;
   --color6: lavender;
   --finalSize: 35vmin;
-  left: 70%;
-  top: 60%;
+  left: 90%;
+  top: 100%;
   animation-delay: -0.4s;
 }
 
 .firework:nth-child(4) {
-  --x: 70vmin;
+  --x: -50vmin;
   --y: 0vmin;
 }
 
@@ -346,14 +353,14 @@ a {
   --color5: SkyBlue;
   --color6: lavender;
   --finalSize: 35vmin;
-  left: 70%;
+  left: 10%;
   top: 60%;
   animation-delay: -0.4s;
 }
 
 .firework:nth-child(5) {
-  --x: -30vmin;
-  --y: -10vmin;
+  --x: 50vmin;
+  --y: 0vmin;
 }
 
 .firework:nth-child(5),
@@ -367,9 +374,89 @@ a {
   --color5: SkyBlue;
   --color6: lavender;
   --finalSize: 35vmin;
-  left: 70%;
-  top: 60%;
-  animation-delay: -0.4s;
+  left: 10%;
+  top: 100%;
+  animation-delay: -0.25s;
 }
 
 
+/* Define the button styles */
+.round-button {
+  width: 40px; /* Adjust the width as needed */
+  height: 40px; /* Adjust the height as needed */
+  background-color: rgb(0, 0, 0); /* Gray background color */
+  border: none;
+  border-radius: 50%; /* Makes the button round */
+  color: #fff; /* Text color */
+  font-size: 18px; /* Adjust the font size as needed */
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease; /* Smooth transition on hover */
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+/* Change button background color on hover */
+.round-button:hover {
+  background-color: #28f328 /* Darker gray on hover */
+}
+
+/* Optional: Add a right-facing arrow ">" using CSS pseudo-elements */
+/* Optional: Adjust the spacing between the button and the arrow */
+.round-button::after {
+  margin-left: 4px; /* Adjust as needed */
+}
+
+.conf-container {
+  width: 100%;
+height: 100%;
+}
+.confetti {
+width: 15px;
+height: 15px;
+background-color: #f2d74e;
+position: absolute;
+left: 50%;
+animation: confetti 5s ease-in-out -2s infinite;
+transform-origin: left top;
+}
+.confetti:nth-child(1) {
+background-color: #f2d74e; left: 10%; animation-delay: 0;
+}
+.confetti:nth-child(2) {
+background-color: #95c3de; left: 20%; animation-delay: -5s;
+}
+.confetti:nth-child(3) {
+background-color: #ff9a91; right: -30%; animation-delay: -3s;
+}
+.confetti:nth-child(4) {
+background-color: #f2d74e; left: 40%; animation-delay: -2.5s;
+}
+.confetti:nth-child(5) {
+background-color: #95c3de; right: -50%; animation-delay: -4s;
+}
+.confetti:nth-child(6) {
+background-color: #ff9a91; left: 60%; animation-delay: -6s;
+}
+.confetti:nth-child(7) {
+background-color: #f2d74e; right:- 70%; animation-delay: -1.5s;
+}
+.confetti:nth-child(8) {
+background-color: #95c3de; left: 70%; animation-delay: -8s;
+}
+.confetti:nth-child(9) {
+background-color: #ff9a91; right: -90%; animation-delay: -3.5s;
+}
+.confetti:nth-child(10) {
+background-color: #f2d74e; right: 50%; animation-delay: -2.5s;
+}
+
+@keyframes confetti {
+0% { transform: rotateZ(15deg) rotateY(0deg) translate(0,0); }
+25% { transform: rotateZ(5deg) rotateY(360deg) translate(-5vw,20vh); }
+50% { transform: rotateZ(15deg) rotateY(720deg) translate(5vw,60vh); }
+75% { transform: rotateZ(5deg) rotateY(1080deg) translate(-10vw,80vh); }
+100% { transform: rotateZ(15deg) rotateY(1440deg) translate(10vw,110vh); }
+}
