@@ -5,21 +5,19 @@ import {play} from "pages/api/play_new"
 import {setup} from "pages/api/setup_new"
 import LoadingAnimation from './LoadingAnimation';
 import BetButtons from './BetButtons';
+
 // import { AnchorProvider, Provider, web3, Wallet } from '@project-serum/anchor';
 // import { WalletAdapter } from '@solana/wallet-adapter-base';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 // import {secret} from "pages/api/constants"
 
 const DiceRoll = ({onChange}) => {
-  const [ onDiceValueChange, inputValue, onInputValueChange ] = onChange;
+  const [ onDiceValueChange, inputValue] = onChange;
   const [diceValue, setDiceValue] = useState(1);
   const [isRolling, setIsRolling] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [animate, setAnimate] = useState(false);
   const animationRef = useRef(null);
-  const {connection} = useConnection()
   const anchorWallet = useAnchorWallet()
-  const betAmounts = [0.1, 0.3, 0.5, 1, 1.3, 1.5, 1.7, 2];
 
   async function _play(newValue, inputValue){
     setIsLoading(true);
@@ -37,7 +35,6 @@ const DiceRoll = ({onChange}) => {
   const rollDice = async() => {
     if (!isRolling && !isLoading) {
       setIsRolling(true);
-      setAnimate(false);
       // If there's an existing animation, clear it
       if (animationRef.current) {
         animationRef.current.kill();
@@ -48,16 +45,14 @@ const DiceRoll = ({onChange}) => {
         rotation: 0,
       });
       const newValue = Math.floor(Math.random() * 6) + 1;
-      
       await _play(newValue, inputValue)
       // Create a GSAP timeline for the animation
       animationRef.current = gsap.timeline({
         onComplete: () => {
           setIsRolling(false);
           // After the initial animation, set the new dice value
-          
+          onDiceValueChange(newValue)
           setDiceValue(newValue);
-          setAnimate(true)
           // _play()
           // Confirm the bet using the betAmount state
         },
@@ -127,8 +122,8 @@ const DiceRoll = ({onChange}) => {
 
 
   return (
-    <div className="dice-container">
-      <div className={`dice ${isRolling ? 'rolling' : ''}`} onClick={rollDice}>
+    <>
+      <div className={`dice`} onClick={rollDice}>
   {isLoading ? (
     <div className="loading-animation-container">
       <LoadingAnimation />
@@ -139,15 +134,8 @@ const DiceRoll = ({onChange}) => {
     </>
   )}
 </div>
-  <div className={` ${animate && diceValue>3 && inputValue!=null ? 'firework' : ''}`}>
-    </div>
-    <div className={` ${animate && diceValue>3 && inputValue!=null? 'firework' : ''}`}>
-    </div>
-    <div className={` ${animate && diceValue>3 && inputValue!=null? 'firework' : ''}`}>
-    </div>
-    <div className={` ${animate && diceValue>3 && inputValue!=null? 'firework' : ''}`}>
-    </div>
-    </div>
+    
+    </>
   );
 };
 
