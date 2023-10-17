@@ -13,7 +13,7 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 const DiceRoll = ({onChange}) => {
   const [ onDiceValueChange, inputValue] = onChange;
-  const [diceValue, setDiceValue] = useState(1);
+  const [diceValue, setDiceValue] = useState(6);
   const [isRolling, setIsRolling] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const animationRef = useRef(null);
@@ -28,8 +28,8 @@ const DiceRoll = ({onChange}) => {
   } catch (error) {
     // Handle errors if needed
   } finally {
-    setIsLoading(false);
-  }
+      setIsLoading(false);
+    }
   }
 
   const rollDice = async() => {
