@@ -12,6 +12,8 @@ import RangeSlider from 'react-range-slider-input';
 import CoinFlip from 'components/CoinFlip';
 import 'react-range-slider-input/dist/style.css';
 import $ from 'jquery';
+import Footer from 'components/Footer'
+import SocialFollow from 'components/SocialFollow'
 
 require('@solana/wallet-adapter-react-ui/styles.css');
 require('../styles/globals.css');
@@ -75,6 +77,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
           <div className={` ${diceValue > 3 ? 'confetti' : ''}`}></div>
           <div className={` ${diceValue > 3 ? 'confetti' : ''}`}></div>
         </div>
+        <SocialFollow/>
       </ContextProvider>
 
       

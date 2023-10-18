@@ -1,8 +1,12 @@
 // BetButtons.js
 // BetButtons.js
+import React, { useState } from 'react';
+// import ReactSwitch from 'react-switch';
 
-const BetButtons = ({ betAmounts, onBetClick }) => {
-  
+const BetButtons = ({ betAmounts, selected, onBetClick }) => {
+
+  const buttonClass = selected ? 'selected' : '';
+
   return (
     <div>
         <div className="bet-buttons-row bet-buttons">
@@ -10,7 +14,7 @@ const BetButtons = ({ betAmounts, onBetClick }) => {
             <button
               key={index}
               onClick={() => onBetClick(amount)}
-              className={"button-33"}
+              className={"button-33 ${buttonClass}"}
             >
               {amount} SOL
             </button>
@@ -22,7 +26,7 @@ const BetButtons = ({ betAmounts, onBetClick }) => {
               key={index}
               onClick={() => onBetClick(amount)}
 
-              className={"button-33"}
+              className={"button-33 ${buttonClass}"}
             >
               {amount} SOL
             </button>
