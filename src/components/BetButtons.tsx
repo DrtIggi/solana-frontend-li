@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 // import ReactSwitch from 'react-switch';
 
-const BetButtons = ({ betAmounts, selected, onBetClick }) => {
+const BetButtons = ({ betAmounts, onBetClick }) => {
 
-  const buttonClass = selected ? 'selected' : '';
+  // const buttonClass = selected ? 'selected' : '';
 
   return (
     <div>
