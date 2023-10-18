@@ -6,6 +6,7 @@ export const commitmentLevel = "processed";
 export const endpoint = "https://api.devnet.solana.com";
 export const connection = new Connection(endpoint, commitmentLevel);
 
+
 export const programId = new PublicKey("DJecLubDCCV3KuQyw5Hg6Yf4UaA1GNdwt4TyFoJgo56b");
 export const programInterface = JSON.parse(JSON.stringify(idl));
 

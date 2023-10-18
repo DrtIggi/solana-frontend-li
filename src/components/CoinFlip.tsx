@@ -7,27 +7,26 @@ import LoadingAnimation from './LoadingAnimation';
 
 function CoinFlip({ onChange }) {
   const [onDiceValueChange, inputValue] = onChange;
-  const [isHeads, setIsHeads] = useState(true);
+  const [isHeads, setIsHeads] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const anchorWallet = useAnchorWallet();
   const coinRef = useRef(null);
 
   const flipCoin = async () => {
     // Toggle the state to switch between heads and tails
-    setIsLoading(true);
+    // setIsLoading(true);
     const randomInteger = Math.round(Math.random());
+    setIsHeads(randomInteger?true:false)
     await _play(randomInteger, inputValue);
-    setIsHeads(randomInteger === 1 ? true : false);
-    setIsLoading(false);
-    onDiceValueChange(randomInteger === 1 ? 6 : 1);
+    setIsHeads(randomInteger?true:false)
+    // setIsLoading(false);
+    // onAnimationEnd()
+};
 
-    // Call onAnimationEnd after the animation is completed
-    onAnimationEnd();
-  };
-
-  const onAnimationEnd = () => {
+  const onAnimationEnd = (isHeadss) => {
     // Your code to execute after the animation ends
-    console.log('Animation ended');
+    onDiceValueChange(isHeads?6:1)
+    console.log("animationed endded: "+isHeadss)
   };
 
   async function _play(newValue, inputValue) {
@@ -39,7 +38,9 @@ function CoinFlip({ onChange }) {
     } catch (error) {
       // Handle errors if needed
     } finally {
+        setIsHeads(newValue?true:false)
       setIsLoading(false);
+    //   setIsHeads(newValue?false:true)
     }
   }
 
@@ -54,12 +55,12 @@ function CoinFlip({ onChange }) {
         coinRef.current.removeEventListener('animationend', onAnimationEnd);
       }
     };
-  }, []);
+  }, [isHeads]);
 
   return (
     <div className='coin-container'>
       {isLoading ? (
-        <div id="coin" ref={coinRef} className="loading-animation-container">
+        <div id="coin" className="loading-animation-container">
           <LoadingAnimation />
           <div className="side-a"></div>
           <div className="side-b"></div>
@@ -80,4 +81,3 @@ function CoinFlip({ onChange }) {
 }
 
 export default CoinFlip;
-

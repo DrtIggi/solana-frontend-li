@@ -18,6 +18,7 @@ import SocialFollow from 'components/SocialFollow'
 require('@solana/wallet-adapter-react-ui/styles.css');
 require('../styles/globals.css');
 require('../styles/coinflip.css');
+require('../styles/notification.css');
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
 
@@ -27,6 +28,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
   const [inputValue, setInputValue] = useState(0);
 
   const handleSwitchComponent = () => {
+    setInputValue(0)
     setShowDiceRoll((prevShowDiceRoll) => !prevShowDiceRoll);
   };
 
@@ -54,7 +56,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
           
       <div className={`dice-container`}>
         <div className='round-button' onClick={handleSwitchComponent}>{"<"}</div>
-        {showDiceRoll? <DiceRoll onChange={[handleDiceValueChange, inputValue]} /> : <CoinFlip onChange={[handleDiceValueChange, inputValue]}/>}
+        {showDiceRoll? <DiceRoll onChange={[handleDiceValueChange, inputValue]} /> : <CoinFlip onChange={[setDiceValue, inputValue]}/>}
         <div className='round-button' onClick={handleSwitchComponent}>{">"}</div>
       </div>
    
@@ -66,20 +68,23 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
           {/* <RangeSlider onInput={handleInputValueChange}/> */}
           {/* <BetSlider onBetChange={setInputValue} /> */}
           <BetButtons betAmounts={[0.1, 0.3, 0.5, 1, 1.3, 1.5, 1.7, 2]} onBetClick={setInputValue} />
+
+
+         
           {/* <BetInput onInputValueChange={handleInputValueChange} /> */}
-          <div className={` ${diceValue > 3 ? 'confetti' : ''}`}></div>
-          <div className={` ${diceValue > 3 ? 'confetti' : ''}`}></div>
-          <div className={` ${diceValue > 3 ? 'confetti' : ''}`}></div>
-          <div className={` ${diceValue > 3 ? 'confetti' : ''}`}></div>
-          <div className={` ${diceValue > 3 ? 'confetti' : ''}`}></div>
-          <div className={` ${diceValue > 3 ? 'confetti' : ''}`}></div>
-          <div className={` ${diceValue > 3 ? 'confetti' : ''}`}></div>
-          <div className={` ${diceValue > 3 ? 'confetti' : ''}`}></div>
-          <div className={` ${diceValue > 3 ? 'confetti' : ''}`}></div>
+          <div className={` ${diceValue > 3 ? 'confetti conf-container' : ''}`}></div>
+          <div className={` ${diceValue > 3 ? 'confetti conf-container' : ''}`}></div>
+          <div className={` ${diceValue > 3 ? 'confetti conf-container' : ''}`}></div>
+          <div className={` ${diceValue > 3 ? 'confetti conf-container' : ''}`}></div>
+          <div className={` ${diceValue > 3 ? 'confetti conf-container' : ''}`}></div>
+          <div className={` ${diceValue > 3 ? 'confetti conf-container' : ''}`}></div>
+          <div className={` ${diceValue > 3 ? 'confetti conf-container' : ''}`}></div>
+          <div className={` ${diceValue > 3 ? 'confetti conf-container' : ''}`}></div>
+          <div className={` ${diceValue > 3 ? 'confetti conf-container' : ''}`}></div>
         </div>
         <SocialFollow/>
+        
       </ContextProvider>
-
       
     </>
   );
