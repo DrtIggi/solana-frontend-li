@@ -113,25 +113,28 @@ a {
   width: 80px; /* Spinner size */
   height: 80px; /* Spinner size */
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .loader {
   animation: spin 1s linear infinite;
-  border: 6px solid transparent; /* Spinner border color */
   border-top: 6px solid #1fbd44; /* Spinner color */
   border-radius: 50%;
   width: 60px; /* Loader size */
   height: 60px; /* Loader size */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 @keyframes spin {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
+
 
 
 
@@ -454,6 +457,16 @@ a.discord {
   margin-right: 20px;
 }
 
+.round-button.left::before {
+  content: "<"; /* Content of the button */
+  font-weight: bold;
+  margin-right: 2px;
+}
+.round-button.right::before {
+  content: ">"; /* Content of the button */
+  font-weight: bold;
+  margin-left: 2px;
+}
 /* Change button background color on hover */
 .round-button:hover {
   background-color: #28f328 /* Darker gray on hover */

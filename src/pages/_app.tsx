@@ -26,6 +26,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
   const [showDiceRoll, setShowDiceRoll] = useState(true);
   const [diceValue, setDiceValue] = useState(1);
   const [inputValue, setInputValue] = useState(0);
+  const [selectedBet, setSelectedBet] = useState(null);
 
   const handleSwitchComponent = () => {
     setInputValue(0)
@@ -37,6 +38,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
   };
   const handleInputValueChange = (newValue) => {
     setInputValue(newValue);
+    setSelectedBet(newValue)
   }
   return (
     <>
@@ -55,9 +57,9 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
           {/* <WinNotification inputValue={inputValue} diceValue={diceValue} /> */}
           
       <div className={`dice-container`}>
-        <div className='round-button' onClick={handleSwitchComponent}>{"<"}</div>
-        {showDiceRoll? <DiceRoll onChange={[handleDiceValueChange, inputValue]} /> : <CoinFlip onChange={[setDiceValue, inputValue]}/>}
-        <div className='round-button' onClick={handleSwitchComponent}>{">"}</div>
+        <div className='round-button left' onClick={handleSwitchComponent}></div>
+        {showDiceRoll? <DiceRoll onChange={[handleDiceValueChange, inputValue]} /> : <CoinFlip onChange={[handleDiceValueChange, inputValue]}/>}
+        <div className='round-button right' onClick={handleSwitchComponent}></div>
       </div>
    
 
@@ -67,7 +69,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
           {/* <button className="button-33" role="button">Button 33</button> */}
           {/* <RangeSlider onInput={handleInputValueChange}/> */}
           {/* <BetSlider onBetChange={setInputValue} /> */}
-          <BetButtons betAmounts={[0.1, 0.3, 0.5, 1, 1.3, 1.5, 1.7, 2]} onBetClick={setInputValue} />
+          <BetButtons betAmounts={[0.1, 0.3, 0.5, 1, 1.3, 1.5, 1.7, 2]} selected={selectedBet} onBetClick={setInputValue} />
 
 
          
@@ -82,7 +84,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
           <div className={` ${diceValue > 3 ? 'confetti conf-container' : ''}`}></div>
           <div className={` ${diceValue > 3 ? 'confetti conf-container' : ''}`}></div>
         </div>
-        <SocialFollow/>
+        {/* <SocialFollow/> */}
         
       </ContextProvider>
       

@@ -9,6 +9,7 @@ import BetButtons from './BetButtons';
 // import { AnchorProvider, Provider, web3, Wallet } from '@project-serum/anchor';
 // import { WalletAdapter } from '@solana/wallet-adapter-base';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { SystemTypesCoder } from '@project-serum/anchor/dist/cjs/coder/system/types';
 // import {secret} from "pages/api/constants"
 
 const DiceRoll = ({onChange}) => {
@@ -21,11 +22,15 @@ const DiceRoll = ({onChange}) => {
 
   async function _play(newValue, inputValue){
     setIsLoading(true);
-
+    if(anchorWallet==undefined){
+      setIsLoading(false)
+      return true
+    }
   try {
     await setup(anchorWallet, LAMPORTS_PER_SOL*inputValue);
     await play(anchorWallet, newValue);
   } catch (error) {
+    return false
     // Handle errors if needed
   } finally {
       setIsLoading(false);
@@ -45,7 +50,10 @@ const DiceRoll = ({onChange}) => {
         rotation: 0,
       });
       const newValue = Math.floor(Math.random() * 6) + 1;
-      await _play(newValue, inputValue)
+      if(await _play(newValue, inputValue) === false){
+        setIsRolling(false)
+        return;
+      }
       // Create a GSAP timeline for the animation
       animationRef.current = gsap.timeline({
         onComplete: () => {
