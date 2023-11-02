@@ -43,7 +43,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <title>Kaka i PIPI</title>
+        <title>DiceRoll</title>
       </Head>
       <ContextProvider>
         <div className="flex flex-col h-screen">
